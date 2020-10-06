@@ -1,5 +1,6 @@
 <?php
 
+$path = "";   //account.json、info.log所在文件夹路径,留空路径与当前文件路径相同
 error_reporting(0);
 date_default_timezone_set("Etc/GMT-8");
 //获取加秒数的时间戳
@@ -67,9 +68,9 @@ function start($phone, $password, $setStep) {
 }
 
 if(php_sapi_name() == 'cli') { //判断是否已脚本方式运行
-	$time=date('y-m-d h:i:s',time());
-	file_put_contents('info.log',$time."\n\n",FILE_APPEND);
-	$file = file_get_contents("account.json");
+	$time=date('y-m-d H:i:s',time());
+	file_put_contents($path.'info.log',$time."\n\n",FILE_APPEND);
+	$file = file_get_contents($path."account.json");
 	$account = json_decode($file);
 	foreach($account as $user) {
 		$phone = $user->phone;
@@ -77,11 +78,11 @@ if(php_sapi_name() == 'cli') { //判断是否已脚本方式运行
 		$step = $user->step + mt_rand(0, 10000);
 
 		$result = start($phone, $password, $step);
-		file_put_contents('info.log',"\t".$result."\n\n",FILE_APPEND);
+		file_put_contents($path.'info.log',"\t".$result."\n\n",FILE_APPEND);
 
 		sleep(1);
 	}
-	file_put_contents('info.log',"\n\n",FILE_APPEND);
+	file_put_contents($path.'info.log',"\n\n",FILE_APPEND);
 	exit;
 } else if(isset($_REQUEST['flag'])) {
 
@@ -96,12 +97,12 @@ if(php_sapi_name() == 'cli') { //判断是否已脚本方式运行
 			echo "{\"code\":\"404\",\"msg\":\"服务器密码错误\"}";
 			exit;
 		}
-		$file = file_get_contents("account.json");
+		$file = file_get_contents($path."account.json");
 		$data = json_decode($file, true);
 		$data[$phone] = ['phone'=>$phone, 'password'=>$password, 'step'=>$step];
 		$account = json_encode($data);
 
-		$result=file_put_contents('account.json',$account);
+		$result=file_put_contents($path.'account.json',$account);
 
 		$text = $result == False ? "{\"code\":\"405\",\"msg\":\"文件写入失败\"}" : "{\"code\":\"508\",\"msg\":\"账号添加成功\"}";
 		echo $text;
@@ -125,6 +126,9 @@ if(php_sapi_name() == 'cli') { //判断是否已脚本方式运行
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<!--弹窗样式-->
 	<link rel="stylesheet" type="text/css" href="css/xtiper.css">
+	<script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/xtiper.min.js" type="text/javascript"></script>
+	<script src="js/login.js"></script>
 </head>
 <body>
 <div class="htmleaf-container">
@@ -139,6 +143,10 @@ if(php_sapi_name() == 'cli') { //判断是否已脚本方式运行
 				<input type="hidden" name="flag" id='flag' value='0' id="flag">
 				<button type='button' id="mul-button" style="width:130px">手动</button>
 				<button type='button' id="auto-button" style="width:130px">自动</button>
+			</form>
+			<br/>
+			<form>
+			<a href="javascript:shiyongClick();">查看食用说明</a>
 			</form>
 		</div>
 		<ul class="bg-bubbles">
@@ -155,8 +163,5 @@ if(php_sapi_name() == 'cli') { //判断是否已脚本方式运行
 		</ul>
 	</div>
 </div>
-	<script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> 
-	<script src="js/xtiper.min.js" type="text/javascript"></script>
-	<script src="js/login.js"></script>
 </body>
 </html>
