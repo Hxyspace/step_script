@@ -92,7 +92,7 @@ if(php_sapi_name() == 'cli') { //判断是否已脚本方式运行
 
 	if($flag == '1') {
 		$sevpwd=$_REQUEST['sevpwd'];
-		if($sevpwd != 'yuan'){
+		if($sevpwd != '*****'){
 			echo "{\"code\":\"404\",\"msg\":\"服务器密码错误\"}";
 			exit;
 		}
