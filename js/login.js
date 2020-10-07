@@ -33,7 +33,7 @@ function shiyongClick() {
 		icon: "success",
 		title: "食用方法",
 		min: true,
-		width: "600px",
+		width: /(iPhone|iOS|Android)/i.test(navigator.userAgent)?'100%':'600px',
 		shade: false,
 		shadeClose: false,
 		lock: false,
