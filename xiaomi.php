@@ -50,7 +50,7 @@ class Xiaomi {
 		if(empty($this->key)){
 			return false;
 		}
-		$content = '@json={"app":"com.tencent.qqpay.qqmp.groupmsg","desc":"","view":"groupPushView","ver":"1.0.0.7","prompt":"刷步推送","meta":{"groupPushData":{"bannerImg":"https://bkimg.cdn.bcebos.com/pic/91529822720e0cf3d7cab034560ce51fbe096a637ce3","bannerTxt":"小米运动修改步数结果","summaryTxt":"'. $desp .'","time":""}},"config":{"forward":0,"showSender":1}}@';
+		$content = '@json={"app":"com.tencent.qqpay.qqmp.groupmsg","desc":"","view":"groupPushView","ver":"1.0.0.7","prompt":"刷步推送","meta":{"groupPushData":{"bannerImg":"https://bkimg.cdn.bcebos.com/pic/91529822720e0cf3d7cab034560ce51fbe096a637ce3?x-bce-process=image/resize,m_lfit,w_268,limit_1/format,f_jpg","bannerTxt":"小米运动修改步数结果","summaryTxt":"'. $desp .'","time":""}},"config":{"forward":0,"showSender":1}}@';
 		$url = "https://push.xuthus.cc/group/" . $this->key;
 		$header = [
 			'Content-Type: application/json; charset=utf-8',
@@ -113,7 +113,7 @@ class Xiaomi {
 		if(empty($login_token)){
 			return false;
 		}
-		$url = 'https://account-cn.huami.com/v1/client/app_tokens?app_name=com.xiaomi.hm.health&dn=api-user.huami.com%2Capi-mifit.huami.com%2Capp-analytics.huami.com&login_token=' . $login_token;
+		$url = 'https://account-cn.huami.com/v1/client/app_tokens?app_name=com.xiaomi.hm.health&dn=api-user.huami.com%2Capi-mifit.huami.com%2Capp-analytics.huami.com&login_token=' . $login_token . '&os_version=4.1.0';
 		$header = [
 			'User-Agent: Dalvik/2.1.0 (Linux; U; Android 9; MI 6 MIUI/20.6.18)'
 		];
@@ -146,8 +146,8 @@ class Xiaomi {
 		preg_match('/.*?ttl%5C%22%3A(.*?)%2C%5C%22dis.*?/', $data_json, $code);
 		$data_json = str_replace($code[1],$step,$data_json);
 		 */
-		$data_json = str_replace('2020-08-14',date('Y-m-d',time()),$data_json);
-		$data_json = str_replace('125',$step,$data_json);
+		$data_json = str_replace('__date__',date('Y-m-d',time()),$data_json);
+		$data_json = str_replace('__ttl__',$step,$data_json);
 
 		$data = 'userid=' . $userid . '&last_sync_data_time=1597306380&device_type=0&last_deviceid=DA932FFFFE8816E7&data_json=' . $data_json;
 

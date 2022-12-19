@@ -38,7 +38,7 @@ class Lexin {
 		if(empty($this->key)){
 			return false;
 		}
-		$content = '@json={"app":"com.tencent.qqpay.qqmp.groupmsg","desc":"","view":"groupPushView","ver":"1.0.0.7","prompt":"刷步推送","meta":{"groupPushData":{"bannerImg":"https://bkimg.cdn.bcebos.com/pic/d8f9d72a6059252ddc356a72339b033b5bb5b9a1","bannerTxt":"乐心运动修改步数结果","summaryTxt":"'. $desp .'","time":""}},"config":{"forward":0,"showSender":1}}@';
+		$content = '@json={"app":"com.tencent.qqpay.qqmp.groupmsg","desc":"","view":"groupPushView","ver":"1.0.0.7","prompt":"刷步推送","meta":{"groupPushData":{"bannerImg":"https://bkimg.cdn.bcebos.com/pic/d8f9d72a6059252ddc356a72339b033b5bb5b9a1?x-bce-process=image/resize,m_lfit,w_268,limit_1/format,f_jpg","bannerTxt":"乐心运动修改步数结果","summaryTxt":"'. $desp .'","time":""}},"config":{"forward":0,"showSender":1}}@';
 
 		$url = "https://push.xuthus.cc/group/" . $this->key;
 		$header = [
