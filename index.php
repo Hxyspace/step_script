@@ -1,6 +1,6 @@
 <?php
 
-$key = "*************";  //酷推key
+$key = "";  //酷推key
 $pwd = "*****"; //服务密码
 $path = dirname(__FILE__).'/'; //账号信息和日志存放的路径，可自定义
 
@@ -10,6 +10,9 @@ date_default_timezone_set("Etc/GMT-8");
 // 导入乐心和小米模块
 require($path . "lexin.php");
 require($path . "xiaomi.php");
+
+// 导入robot_feishu推送
+require($path . "robot_feishu.php");
 
 $apis = [new Lexin, new Xiaomi];
 $fileList = [$path."Laccount.json", $path."Xaccount.json"];
@@ -31,6 +34,11 @@ if(php_sapi_name() == 'cli') { //判断是否以脚本方式运行
 	$endTag = strpos($log,date('Y-m-d',strtotime('-1 month')));
 	if($endTag) $log = substr($log, 0 , $endTag);
 	file_put_contents($logFile,$time."\n\n乐心：\n".$Lresult."\n\n小米：\n".$Xresult."\n\n\n\n".$log);
+
+	$robot = new Robot_feishu;
+	$msg = $time."\n\n乐心：\n".$Lresult."\n\n小米：\n".$Xresult;
+	$push_msg = str_replace("\n", "\\n", $msg);
+	$robot->push($push_msg);
 
 	exit;
 } else if(isset($_REQUEST['flag'])) {
